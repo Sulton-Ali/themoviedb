@@ -1,5 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:themoviedb/Theme/app_colors.dart';
 import 'package:themoviedb/widgets/auth/auth_widget.dart';
+import 'package:themoviedb/widgets/main_screen/main_screen_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,7 +12,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,10 +19,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromRGBO(3, 37, 64, 1),
+          backgroundColor: AppColors.mainDarkBlue,
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: AppColors.mainDarkBlue,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
         ),
       ),
-      home: const AuthWidget(),
+      routes: {
+        '/auth': (context) => AuthWidget(),
+        '/main_screen': (context) => MainScreenWidget(),
+      },
+      initialRoute: '/auth',
     );
   }
 }

@@ -1,7 +1,11 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
+import 'package:themoviedb/Theme/app_button_style.dart';
+import 'package:themoviedb/widgets/main_screen/main_screen_widget.dart';
 
 class AuthWidget extends StatefulWidget {
-  const AuthWidget({Key? key}) : super(key: key);
+  AuthWidget({Key? key}) : super(key: key);
 
   @override
   _AuthWidgetState createState() => _AuthWidgetState();
@@ -12,24 +16,25 @@ class _AuthWidgetState extends State<AuthWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login to your acoount '),
+        title: Text('Login to your acoount '),
       ),
       body: ListView(
-        children: const [_HeaderWidget()],
+        children: [_HeaderWidget()],
       ),
     );
   }
 }
 
 class _HeaderWidget extends StatelessWidget {
-  const _HeaderWidget({Key? key}) : super(key: key);
+  _HeaderWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        children: const [
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           SizedBox(
             height: 30,
           ),
@@ -45,6 +50,14 @@ class _HeaderWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
+            height: 5,
+          ),
+          TextButton(
+            style: AppButtonStyle.linkButton,
+            onPressed: () {},
+            child: Text('Регистрация'),
+          ),
+          SizedBox(
             height: 16,
           ),
           Text(
@@ -54,6 +67,14 @@ class _HeaderWidget extends StatelessWidget {
               color: Colors.black,
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
+          TextButton(
+            style: AppButtonStyle.linkButton,
+            onPressed: () {},
+            child: Text('Верификация email а'),
+          ),
         ],
       ),
     );
@@ -61,17 +82,41 @@ class _HeaderWidget extends StatelessWidget {
 }
 
 class _FormWidget extends StatefulWidget {
-  const _FormWidget({Key? key}) : super(key: key);
+  _FormWidget({Key? key}) : super(key: key);
 
   @override
-  __FormWidgetState createState() => __FormWidgetState();
+  _FormWidgetState createState() => _FormWidgetState();
 }
 
-class __FormWidgetState extends State<_FormWidget> {
+class _FormWidgetState extends State<_FormWidget> {
+  final _loginTextController = TextEditingController(text: 'admin');
+  final _passwordTextController = TextEditingController(text: 'admin');
+  String? errorText = null;
+
+  void _auth() {
+    final login = _loginTextController.text;
+    final password = _passwordTextController.text;
+
+    if (login == 'admin' && password == 'admin') {
+      errorText = null;
+
+      Navigator.of(context).pushReplacementNamed('/main_screen');
+    } else {
+      errorText = 'Не верный логин или пароль';
+    }
+    setState(() {});
+  }
+
+  void _resetPassword() {
+    print('reset password');
+  }
+
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(fontSize: 16, color: Color(0xFF212529));
-    const textFieldDecorator = InputDecoration(
+    final textStyle = TextStyle(fontSize: 16, color: Color(0xFF212529));
+    final color = Color(0xFF01B4E4);
+
+    final textFieldDecorator = InputDecoration(
       border: OutlineInputBorder(),
       contentPadding: EdgeInsets.symmetric(
         horizontal: 10,
@@ -80,14 +125,29 @@ class __FormWidgetState extends State<_FormWidget> {
       isCollapsed: true,
     );
 
+    final errorText = this.errorText;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
+        if (errorText != null) ...[
+          Text(
+            errorText,
+            style: TextStyle(
+              fontSize: 17,
+              color: Colors.red,
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          )
+        ],
         Text(
           'Имя пользователя:',
           style: textStyle,
         ),
         TextField(
+          controller: _loginTextController,
           decoration: textFieldDecorator,
         ),
         SizedBox(
@@ -98,8 +158,45 @@ class __FormWidgetState extends State<_FormWidget> {
           style: textStyle,
         ),
         TextField(
+          controller: _passwordTextController,
           decoration: textFieldDecorator,
-        )
+          obscureText: true,
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        Row(
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(color),
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+                textStyle: MaterialStateProperty.all(
+                  TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                padding: MaterialStateProperty.all(
+                  EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                ),
+              ),
+              onPressed: _auth,
+              child: Text('Логин'),
+            ),
+            SizedBox(
+              width: 16,
+            ),
+            TextButton(
+              style: AppButtonStyle.linkButton,
+              onPressed: _resetPassword,
+              child: Text('Сброс пароля'),
+            ),
+          ],
+        ),
       ],
     );
   }
