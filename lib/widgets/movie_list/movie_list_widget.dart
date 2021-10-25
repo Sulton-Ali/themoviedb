@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
 
 class Movie {
+  final int id;
   final String imageName;
   final String title;
   final String time;
   final String description;
 
   Movie({
+    required this.id,
     required this.imageName,
     required this.title,
     required this.time,
@@ -27,6 +29,7 @@ class MovieListWidget extends StatefulWidget {
 class _MovieListWidgetState extends State<MovieListWidget> {
   final _movies = [
     Movie(
+      id: 1,
       title: "Гнев человеческий",
       time: "22 апреля 2021",
       description:
@@ -34,12 +37,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 2,
       title: "Лига справедливости Зака Снайдера",
       time: "18 марта 2021",
       description: "Бэтмен собирает команду супергероев, чтобы спасти Землю.",
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 3,
       title: "Дюна (2021)",
       time: "16 сентября 2021",
       description:
@@ -47,12 +52,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 4,
       title: "Райя и последний дракон",
       time: "4 марта 2021",
       description: "Дочь вождя ищет магическое существо в надежде спасти мир.",
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 5,
       title: "Никто",
       time: "18 марта 2021",
       description:
@@ -60,6 +67,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 6,
       title: "Гнев человеческий 2",
       time: "22 апреля 2021",
       description:
@@ -67,12 +75,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 7,
       title: "Лига справедливости Зака Снайдера 2",
       time: "18 марта 2021",
       description: "Бэтмен собирает команду супергероев, чтобы спасти Землю.",
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 8,
       title: "Дюна (2021) 2",
       time: "16 сентября 2021",
       description:
@@ -80,12 +90,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 9,
       title: "Райя и последний дракон 2",
       time: "4 марта 2021",
       description: "Дочь вождя ищет магическое существо в надежде спасти мир.",
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 10,
       title: "Никто 2",
       time: "18 марта 2021",
       description:
@@ -93,6 +105,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 11,
       title: "Гнев человеческий 3",
       time: "22 апреля 2021",
       description:
@@ -100,12 +113,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 12,
       title: "Лига справедливости Зака Снайдера 3",
       time: "18 марта 2021",
       description: "Бэтмен собирает команду супергероев, чтобы спасти Землю.",
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 13,
       title: "Дюна (2021) 3",
       time: "16 сентября 2021",
       description:
@@ -113,12 +128,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 14,
       title: "Райя и последний дракон 3",
       time: "4 марта 2021",
       description: "Дочь вождя ищет магическое существо в надежде спасти мир.",
       imageName: AppImages.poster,
     ),
     Movie(
+      id: 15,
       title: "Никто 3",
       time: "18 марта 2021",
       description:
@@ -148,6 +165,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     super.initState();
     _filteredMovies = _movies;
     _searchController.addListener(_searchMovies);
+  }
+
+  void _onMovieTap(int index) {
+    final id = _movies[index].id;
+    Navigator.of(context).pushNamed(
+      '/main_screen/movie_details',
+      arguments: id,
+    );
   }
 
   @override
@@ -219,7 +244,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () => _onMovieTap(index),
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
